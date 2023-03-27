@@ -1,0 +1,40 @@
+#!/bin/sh
+
+# PROVIDE: smartexporter
+# REQUIRE: NETWORKING SERVERS
+
+# Simple Python SMART exporter for Prometheus on FreeBSD
+#
+# This simple exporter utilizes the command line smartmontools
+# smartctl command to query SMART attributes from all attached
+# disks and exports them using HTTP on the configured port.
+#
+# RC configuration variables:
+#
+#  smartexporter_enable:="NO"
+#   When set to yes start service automatically
+#
+#  smartexporter_loglevel:="error"
+#   Sets the loglevel of the exporter
+#
+#  smartexporter_port:="9248"
+#   Sets the port on which the exporter should listen
+#
+# Copyright 2021, Thomas Spielauer
+
+. /etc/rc.subr
+
+name="smartexporter"
+rcvar=smartexporter_enable
+
+load_rc_config $name
+: ${smartexporter_enable:="NO"}
+: ${smartexporter_loglevel:="error"}
+: ${smartexporter_port:="9248"}
+
+command=/usr/local/bin/smartexporter
+command_args="--loglevel ${smartexporter_loglevel} --port ${smartexporter_port}"
+
+load_rc_config $name
+run_rc_command "$1"
+

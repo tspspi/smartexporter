@@ -50,6 +50,19 @@ be installed using ```pkg```:
 pkg install smartmontools
 ```
 
+### ```rc.d``` init script
+
+In addition the exporter can be launched on boot and configured from ```/etc/rc.conf```
+using an rc.init script. A simple implementation can be found in the ```rcd/smartexporter```
+script. This script can be copied to ```/usr/local/etc/rc.d/smartexporter```.
+Then one can perform basic configuration from ```rc.conf```:
+
+```
+smartexporter_enable="YES"
+smartexporter_port="9248"
+smartexporter_loglevel="error"
+```
+
 ## Usage
 
 ```
